@@ -29,13 +29,10 @@
 #include <stdlib.h>
 #include <ctype.h>
 
+
 #include "Calculadora.h"
 
-float SumaDeNumeros(float, float);
-float RestaDeNumeros(float, float);
-float DivisionDeNumeros(float, float, float*);
-float MultiplicacionDeNumeros(float, float);
-//int ValidarNumeroOpcion(char[]);
+
 
 int main(void) {
 	setbuf(stdout, NULL);
@@ -44,57 +41,40 @@ int main(void) {
 
 	float numeroA;
 	float numeroB;
-	float sumaNumeros;
-	float restaNumeros;
+
+	int factorialA;
+	int factorialB;
 	int banderaIngresoNumeros1 = 0;
 	int banderaIngresoNumeros2 = 0;
 	int banderaOperaciones = 0;
 	int banderaIngresado1 = 0;
 	int banderaIngresado2 = 0;
-
+	float restaNumeros;
+	float sumaNumeros;
 	float multiplicacionNumeros;
 	float division;
+	float rFactorialA;
+	float rFactorialB;
 	int respuesta;
 
 	do {
 
-		if (banderaIngresoNumeros1 == 0) {
-			printf("1. Ingresar primer numero (A=x)\n");
-
-		} else if (banderaIngresoNumeros1 == 1) {
-			printf("1. Ingresar primer numero (A=%.2f)\n", numeroA);
-		}
-
-		if (banderaIngresoNumeros2 == 0) {
-			printf("2. Ingresar segundo numero (B=y)\n");
-
-		} else if (banderaIngresoNumeros2 == 1) {
-			printf("2. Ingresar segundo numero (B=%.2f)\n", numeroB);
-		}
-		printf("3. Calcular todas las operaciones\n");
-		printf("4. Informar resultados\n");
-		printf("5. salir\n");
-		printf("=====================================================\n");
-
-		printf("Ingrese una opcion: ");
-		scanf("%d", &opcion);
-
+		opcion = MenuOpciones(numeroA, numeroB, banderaIngresoNumeros1,
+				banderaIngresoNumeros2);
 
 		switch (opcion) {
 		case 1:
 			banderaIngresoNumeros1 = 1;
 			banderaIngresado1 = 1;
-			printf("\n1. Ingresar 1er operando (A=x) : ");
-
-			scanf("%f", &numeroA);
+			numeroA = PedirFlotante("\n1. Ingresar 1er operando (A=x) : ");
 			printf("=====================================================\n");
 
 			break;
 		case 2:
 			banderaIngresoNumeros2 = 1;
 			banderaIngresado2 = 1;
-			printf("\n2. Ingresar 2do operando (B=y) : ");
-			scanf("%f", &numeroB);
+			numeroB = PedirFlotante("\n2. Ingresar 2do operando (B=y) : ");
+
 			printf("=====================================================\n");
 
 			break;
@@ -107,6 +87,7 @@ int main(void) {
 				printf("NO SE INGRESO SEGUNDO NUMERO\n");
 				printf(
 						"=====================================================\n");
+
 			} else {
 
 				banderaOperaciones = 1;
@@ -116,7 +97,15 @@ int main(void) {
 				respuesta = DivisionDeNumeros(numeroA, numeroB, &division);
 				multiplicacionNumeros = MultiplicacionDeNumeros(numeroA,
 						numeroB);
-				printf("LAS OPERACIONES SE HAN REALIZADO CON EXITO\n");
+				factorialA = CalcularFactorial(numeroA, &rFactorialA);
+				factorialB = CalcularFactorial(numeroB, &rFactorialB);
+				printf("Operacion calcular la suma (A+B)\n");
+				printf("Operacion calcular la resta (A-B)\n");
+				printf("Operacion calcular la division (A/B)\n");
+				printf("Operacion calcular la multiplicacion (A*B)\n");
+				printf("Operacion calcular el factorial (A!)\n");
+				printf("Operacion calcular el factorial (B!)\n");
+				printf("SE HAN REALIZADO CON EXITO\n");
 				printf(
 						"=====================================================\n");
 				printf(
@@ -138,6 +127,20 @@ int main(void) {
 				}
 
 				printf("La multiplicacion es = %.2f\n", multiplicacionNumeros);
+
+				if (factorialA == 1 ) {
+					printf(
+							"EL NUMERO (A) NO SE LE PUEDE REALIZAR EL FACTORIAL\n");
+				} else {
+					printf("El factorial de A es = %.1f\n", rFactorialA);
+				}
+				if (factorialB == 1 ) {
+					printf(
+							"EL NUMERO (B) NO SE LE PUEDE REALIZAR EL FACTORIAL\n");
+				} else {
+					printf("El factorial de B es = %.1f\n", rFactorialB);
+				}
+
 				printf(
 						"=====================================================\n");
 				printf(
@@ -152,60 +155,13 @@ int main(void) {
 		default:
 
 			printf("OPCION INVALIDA\n");
+			printf("=====================================================\n");
+			printf("=====================================================\n");
 			break;
 		}
 
-	} while (opcion != 5 );
+	} while (opcion != 5);
 
 	return EXIT_SUCCESS;
 
 }
-
-float SumaDeNumeros(float numeroA, float numeroB) {
-
-	int suma;
-
-	suma = numeroA + numeroB;
-
-	return suma;
-}
-
-float RestaDeNumeros(float numeroA, float numeroB) {
-	float resta;
-
-	resta = numeroA - numeroB;
-
-	return resta;
-
-}
-float DivisionDeNumeros(float numeroA, float numeroB, float *dividir) {
-	float division;
-	int banderaNoSePuede;
-
-	if (numeroB == 0) {
-
-		banderaNoSePuede = 1;
-	} else {
-		division = numeroA / numeroB;
-	}
-	*dividir = division;
-	return banderaNoSePuede;
-
-}
-float MultiplicacionDeNumeros(float numeroA, float numeroB) {
-	float multiplicar;
-	multiplicar = numeroA * numeroB;
-
-	return multiplicar;
-
-}
-/*void ValidarNumeroOpcion(int opcion) {
-
-	if (!isalpha(opcion)) {
-
-		printf("ERROR INGRESE NUMEROS");
-
-	}
-
-}
-*/
